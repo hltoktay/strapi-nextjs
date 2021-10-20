@@ -23,8 +23,6 @@ const Movies = ({ movies }) => {
     
     )
 }
-   
-
 
 export async function getServerSideProps() {
     const { API_URL } = process.env

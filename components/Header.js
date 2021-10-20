@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function Header() {
+export default function Header({ navigation }) {
 
     const router = useRouter()
     
@@ -13,18 +13,27 @@ export default function Header() {
                     <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/56849d25344275.563441ab0af8b.jpg" alt="" width="180" height="75" className="d-inline-block align-text-top" />
                 </a>
 
+ 
                 <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 text-uppercase">
-                    <li>
+                      {navigation.map(item => (
+                          <li key={item.id}>
+                              <Link href={item.slug}>
+                                      <a className="nav-link px-2 active">{item.title}</a>
+                              </Link>
+                          </li>
+                    ))}
+                   
+                    {/* <li>
                         <Link href="/"><a className="nav-link px-2 link-secondary active">Home</a></Link>
                     </li>
-                    <li>
-                        <Link href="/movies"><a className="nav-link px-2 link-dark">Movies</a></Link>
-                    </li>
+                     <li>
+                         <Link href="/movies"><a className="nav-link px-2 link-dark">Movies</a></Link>
+                     </li>
 
-                    <li>
-                        <Link href="/contact"><a className="nav-link px-2 link-dark">Contact</a></Link>
-                    </li>
-                </ul>
+                     <li>
+                         <Link href="/contact"><a className="nav-link px-2 link-dark">Contact</a></Link>
+                     </li> */}
+                </ul> 
 
                 <div className="col-md-3 text-end">
                     <button type="button" className="btn btn-ligh me-2">Login</button>

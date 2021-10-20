@@ -1,0 +1,12 @@
+
+.active{
+    color: black;
+    border-radius: 15px;
+}
+
+.active:hover{
+    background-color: #35a0a0;
+    border-radius: 20px;
+    color: white;
+    transition: 0.8s
+}
