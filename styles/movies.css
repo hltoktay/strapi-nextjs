@@ -1,0 +1,32 @@
+.movies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 2fr));
+    justify-content: center;
+    margin: 30px 50px 0 30px;
+}
+
+
+.movies img {
+    width: 80%;
+    margin: 30px 0 0 30px
+}
+
+.movies .card-img-top {
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    border-radius: 25px;
+}
+
+.movies .card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.movies .card-text{
+    height: 70px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
