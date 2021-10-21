@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link';
 
 export default function Card({ movie }) {
 
@@ -13,13 +14,16 @@ export default function Card({ movie }) {
                         <h5 class="card-title">{movie.title}</h5>
                         <p class="card-text">{movie.desc}</p>
                     </div>
+
                     <div class="d-flex justify-content-between align-items-center p-2">
                         <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline-success">Like <i class="far fa-heart"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline-danger mx-2">Dislike <i className="far fa-thumbs-down"></i> </button>
+                            <Link href={`/movies/${movie.id}`} as={`/movies/${movie.id}`}><button type="button" class="btn btn-sm btn-outline-dark mx-2"><i class="fas fa-info-circle"></i></button></Link>
+                            <button type="button" class="btn btn-sm btn-outline-danger">Dislike <i className="far fa-thumbs-down"></i> </button>
                         </div>
                         <small class="text-muted">View 10</small>
                     </div>
+
                 </div>
             </div>
         </div>
