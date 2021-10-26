@@ -18,7 +18,7 @@ export default function Card({ movie }) {
                     <div class="d-flex justify-content-between align-items-center p-2">
                         <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline-success">Like <i class="far fa-heart"></i></button>
-                            <Link href={`/movies/${movie.id}`} as={`/movies/${movie.id}`}><button type="button" class="btn btn-sm btn-outline-dark mx-2"><i class="fas fa-info-circle"></i></button></Link>
+                            <Link href="/movies/[genre]/[slug]" as={`/movies/${movie.genre.slug}/${movie.slug}`}><button type="button" class="btn btn-sm btn-outline-dark mx-2">Info <i class="fas fa-info-circle"></i></button></Link>
                             <button type="button" class="btn btn-sm btn-outline-danger">Dislike <i className="far fa-thumbs-down"></i> </button>
                         </div>
                         <small class="text-muted">View 10</small>

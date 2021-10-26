@@ -22,17 +22,7 @@ export default function Header({ navigation }) {
                               </Link>
                           </li>
                     ))}
-                   
-                    {/* <li>
-                        <Link href="/"><a className="nav-link px-2 link-secondary active">Home</a></Link>
-                    </li>
-                     <li>
-                         <Link href="/movies"><a className="nav-link px-2 link-dark">Movies</a></Link>
-                     </li>
-
-                     <li>
-                         <Link href="/contact"><a className="nav-link px-2 link-dark">Contact</a></Link>
-                     </li> */}
+         
                 </ul> 
 
                 <div className="col-md-3 text-end">
