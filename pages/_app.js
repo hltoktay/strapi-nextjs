@@ -3,6 +3,10 @@ import getConfig from 'next/config';
 import fetch from 'isomorphic-unfetch';
 
 import Header from '../components/Header';
+import Footer from '../components/Footer';
+
+import { DefaultSeo } from 'next-seo';
+import SEO from '../next-seo.config';
 
 function MyApp({ Component, pageProps, navigation }) {
 
@@ -10,8 +14,10 @@ function MyApp({ Component, pageProps, navigation }) {
 
   return (
     <>
+    <DefaultSeo {...SEO} />
       <Header navigation={navigation} />
       <Component {...pageProps} />
+      <Footer />
     </>
   )
 }

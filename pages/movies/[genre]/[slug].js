@@ -1,14 +1,24 @@
 import React from 'react';
 import getConfig from 'next/config';
 import fetch from 'isomorphic-unfetch';
+import { NextSeo } from 'next-seo';
  
 function Movie( { movie }) {
 
-    
+    const SEO = {
+        title: `Next Movies | ${movie.title}`,
+        description: movie.description
+    }
 
     return (
+        <>
+         <NextSeo {...SEO} />
         <div className="container">
-            <div class="p-5 mb-4 bg-dark rounded-3">
+                <div class="p-5 mb-4 rounded-3" style={{
+                    backgroundImage: 'url(https://wallpaperaccess.com/full/4840775.jpg)', 
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat'
+                }} >
                 <div class="container-fluid py-5 text-white"> 
                     <h1 class="display-5 fw-bold">{movie.title}</h1>
                     <p class="col-md-8 fs-4" dangerouslySetInnerHTML={{ __html: movie.desc }}></p>
@@ -54,6 +64,7 @@ function Movie( { movie }) {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 
