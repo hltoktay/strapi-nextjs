@@ -1,62 +1,108 @@
-import React from 'react'
+import {NextSeo} from 'next-seo';
+
+import getConfig from 'next/config';
 import fetch from 'isomorphic-unfetch';
-import { useRouter } from 'next/router';
 
-import Card from '../components/Card'; 
+import Genres from '../components/Genres';
 
 
-const Movies = ({ movies, page, numberOfMovies }) => {
-    // console.log(movies)
+const Home = ({ genres }) => {
 
-    const router = useRouter()
-     // console.log(router.query)
+   // console.log(genres)
 
-    const lastPage = Math.ceil(numberOfMovies / 6)
+ const SEO = {
+    title: 'Movie Application',
+    description: 'Just your favorite movie application'
+  }
 
-    return (
-        <div className="container row">
-            <div className="col d-inline">
-                <div className="container movies">
-                    {
-                        movies.map(movie => (
-                            <Card key={movie.id} movie={movie} />
-                        ))
-                    }
-                </div>
 
-            </div>
-
-            <div class="d-grid gap-4 d-md-flex justify-content-md-center mt-5 mx-5">
-                <button onClick={() => router.push(`/movies?page=${page - 1}`)} disabled={page <=1} class="btn btn-outline-dark me-md-2" type="button">Previous</button>
-                <button onClick={() => router.push(`/movies?page=${page + 1}`)} disabled={page >= lastPage} class="btn btn-outline-dark px-4" type="button">Next</button>
-            </div>
-
+  return (
+    <>
+      <NextSeo {...SEO} />
+      <div className="container">
+        <div class="nav-scroller py-1 mb-2">
+          <nav class="nav d-flex justify-content-between">
+            {genres.map(genre => (
+              <Genres key={genre.id} genre={genre} />
+            ))}
+          </nav>
         </div>
 
-    
-    )
+        <div className="trend-movie">
+          <h3>Trend Movies</h3>
+          <div className="row">
+            <div class="card mb-3" style={{ maxWidth: '440px' }}>
+              <div class="row">
+                <div class="col-md-4">
+                  <img src="..." class="img-fluid rounded-start" alt="..." />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mb-3" style={{ maxWidth: '440px' }}>
+              <div class="row">
+                <div class="col-md-4">
+                  <img src="..." class="img-fluid rounded-start" alt="..." />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mb-3" style={{ maxWidth: '440px' }}>
+              <div class="row">
+                <div class="col-md-4">
+                  <img src="..." class="img-fluid rounded-start" alt="..." />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+
+
+      </div>
+    </>
+  )
 }
 
-export async function getServerSideProps({ query: {page = 1} }) {
-    const { API_URL } = process.env
 
-    const start = +page === 1 ? 0 : (+page - 1) * 6
+export async function getServerSideProps() {
+  const { API_URL } = process.env
 
-    const numberOfMoviesResponse = await fetch(`${API_URL}/movies/count`)
-    const numberOfMovies = await numberOfMoviesResponse.json()
+  const res = await fetch(`${API_URL}/genres`)
+  const data = await res.json()
 
-    
-
-    const res = await fetch(`${API_URL}/movies?_limit=6&_start=${start}`)
-    const data = await res.json()
-
-    return {
-        props: {
-            movies: data,
-            page: +page,
-            numberOfMovies
-        }
+  return {
+    props: {
+      genres: data,
+      movies: data
     }
+  }
 }
 
-export default Movies;
+
+
+
+export default Home;

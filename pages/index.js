@@ -1,84 +1,62 @@
-import {NextSeo} from 'next-seo';
+import React from 'react'
+import fetch from 'isomorphic-unfetch';
+import { useRouter } from 'next/router';
 
-export default function Home() {
+import Card from '../components/Card'; 
 
-  const SEO = {
-    title: 'Movie Application',
-    description: 'Just your favorite movie application'
-  }
 
-  return (
-    <>
-    <NextSeo {...SEO} />
-      <div className="container">
-        <div class="nav-scroller py-1 mb-2">
-          <nav class="nav d-flex justify-content-between">
-            <a class="p-2 link-secondary" href="#">Action</a>
-            <a class="p-2 link-secondary" href="#">Comedy</a>
-            <a class="p-2 link-secondary" href="#">Drama</a>
-            <a class="p-2 link-secondary" href="#">Fantasy</a>
-            <a class="p-2 link-secondary" href="#">Horror</a>
-            <a class="p-2 link-secondary" href="#">Mystery</a>
-            <a class="p-2 link-secondary" href="#">Romance</a>
-            <a class="p-2 link-secondary" href="#">Science</a>
-            <a class="p-2 link-secondary" href="#">Crime</a>
-            <a class="p-2 link-secondary" href="#">Sci-Fi</a>
-            <a class="p-2 link-secondary" href="#">Biography</a>
-          </nav>
+const Movies = ({ movies, page, numberOfMovies }) => {
+    // console.log(movies)
+
+    const router = useRouter()
+     // console.log(router.query)
+
+    const lastPage = Math.ceil(numberOfMovies / 6)
+
+    return (
+        <div className="container row">
+            <div className="col d-inline">
+                <div className="container movies">
+                    {
+                        movies.map(movie => (
+                            <Card key={movie.id} movie={movie} />
+                        ))
+                    }
+                </div>
+
+            </div>
+
+            <div class="d-grid gap-4 d-md-flex justify-content-md-center mt-5 mx-5">
+                <button onClick={() => router.push(`/movies?page=${page - 1}`)} disabled={page <=1} class="btn btn-outline-dark me-md-2" type="button">Previous</button>
+                <button onClick={() => router.push(`/movies?page=${page + 1}`)} disabled={page >= lastPage} class="btn btn-outline-dark px-4" type="button">Next</button>
+            </div>
+
         </div>
 
-
-        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
-        <div class="container">
-          <div class="carousel-caption text-start">
-            <h1>Example headline.</h1>
-            <p>Some representative placeholder content for the first slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
-        <div class="container">
-          <div class="carousel-caption">
-            <h1>Another example headline.</h1>
-            <p>Some representative placeholder content for the second slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
-        <div class="container">
-          <div class="carousel-caption text-end">
-            <h1>One more for good measure.</h1>
-            <p>Some representative placeholder content for the third slide of this carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-      </div>
-    </>
-  )
+    
+    )
 }
+
+export async function getServerSideProps({ query: {page = 1} }) {
+    const { API_URL } = process.env
+
+    const start = +page === 1 ? 0 : (+page - 1) * 6
+
+    const numberOfMoviesResponse = await fetch(`${API_URL}/movies/count`)
+    const numberOfMovies = await numberOfMoviesResponse.json()
+
+    
+
+    const res = await fetch(`${API_URL}/movies?_limit=6&_start=${start}`)
+    const data = await res.json()
+
+    return {
+        props: {
+            movies: data,
+            page: +page,
+            numberOfMovies
+        }
+    }
+}
+
+export default Movies;

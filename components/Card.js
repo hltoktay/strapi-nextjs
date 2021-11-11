@@ -6,9 +6,10 @@ export default function Card({ movie }) {
     const { API_URL } = process.env
 
     return (
-        <div class="row text-center">
+        <div class="row">
             <div class="col mx-2 mt-2">
                 <div class="card h-100">
+
                     <img src={API_URL + movie.poster.url} class="card-img-top" alt={API_URL + movie.poster.url} />
                     <div class="card-body">
                         <h5 class="card-title">{movie.title}</h5>
